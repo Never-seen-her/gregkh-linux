@@ -11,96 +11,96 @@
 # Normal rules (sorted alphabetically)
 #
 .*
-*.a
-*.asn1.[ch]
-*.bin
-*.bz2
-*.c.[012]*.*
-*.dt.yaml
-*.dtb
-*.dtbo
-*.dtb.S
-*.dtbo.S
-*.dwo
-*.dylib
-*.elf
-*.gcno
-*.gcda
-*.gz
-*.i
-*.ko
-*.lex.c
-*.ll
-*.lst
-*.lz4
-*.lzma
-*.lzo
-*.mod
-*.mod.c
-*.o
-*.o.*
-*.patch
-*.pyc
-*.rmeta
-*.rpm
-*.rsi
-*.s
-*.so
-*.so.dbg
-*.su
-*.symtypes
-*.tab.[ch]
-*.tar
-*.xz
-*.zst
-Module.symvers
-dtbs-list
-modules.order
+# *.a
+# *.asn1.[ch]
+# *.bin
+# *.bz2
+# *.c.[012]*.*
+# *.dt.yaml
+# *.dtb
+# *.dtbo
+# *.dtb.S
+# *.dtbo.S
+# *.dwo
+# *.dylib
+# *.elf
+# *.gcno
+# *.gcda
+# *.gz
+# *.i
+# *.ko
+# *.lex.c
+# *.ll
+# *.lst
+# *.lz4
+# *.lzma
+# *.lzo
+# *.mod
+# *.mod.c
+# *.o
+# *.o.*
+# *.patch
+# *.pyc
+# *.rmeta
+# *.rpm
+# *.rsi
+# *.s
+# *.so
+# *.so.dbg
+# *.su
+# *.symtypes
+# *.tab.[ch]
+# *.tar
+# *.xz
+# *.zst
+# Module.symvers
+# dtbs-list
+# modules.order
 
 #
 # Top-level generic files
 #
-/linux
-/modules-only.symvers
-/vmlinux
-/vmlinux.32
-/vmlinux.map
-/vmlinux.symvers
-/vmlinux.unstripped
-/vmlinux-gdb.py
-/vmlinuz
-/System.map
-/Module.markers
-/modules.builtin
-/modules.builtin.modinfo
-/modules.builtin.ranges
-/modules.nsdeps
+# /linux
+# /modules-only.symvers
+# /vmlinux
+# /vmlinux.32
+# /vmlinux.map
+# /vmlinux.symvers
+# /vmlinux.unstripped
+# /vmlinux-gdb.py
+# /vmlinuz
+# /System.map
+# /Module.markers
+# /modules.builtin
+# /modules.builtin.modinfo
+# /modules.builtin.ranges
+# /modules.nsdeps
 
 #
 # RPM spec file (make rpm-pkg)
 #
-/rpmbuild/
+# /rpmbuild/
 
 #
 # Debian directory (make deb-pkg)
 #
-/debian/
+# /debian/
 
 #
 # Snap directory (make snap-pkg)
 #
-/snap/
+# /snap/
 
 #
 # tar directory (make tar*-pkg)
 #
-/tar-install/
+# /tar-install/
 
 #
 # pacman files (make pacman-pkg)
 #
-/PKGBUILD
-/pacman/
+# /PKGBUILD
+# /pacman/
 
 #
 # We don't want to ignore the following even if they are dot-files
@@ -147,10 +147,10 @@ GSYMS
 GTAGS
 
 # id-utils files
-ID
+# ID
 
-*~
-\#*#
+# *~
+# \#*#
 
 #
 # Leavings from module signing
