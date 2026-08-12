@@ -1,0 +1,96 @@
+/dts-v1/;
+// #include <dt-bindings/input/linux-event-codes.h> //Linux 输入事件代码
+// #include <dt-bindings/leds/common.h> //LED 颜色和功能标识
+// #include <dt-bindings/pwm/pwm.h> //PWM 极性标志
+#include "rk3399.dtsi"
+
+
+/ {
+	model = "Toybrick TB-RK3399ProD";
+	compatible = "toybrick,tb-rk3399pro-d", "rockchip,rk3399pro", "rockchip,rk3399";
+
+	aliases {
+		mmc0 = &sdhci;
+	};
+
+	chosen {
+		stdout-path = "serial2:1500000n8";
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		/*
+		 * Toybrick/Rockchip RK3399Pro Linux BSP reserves this 64 MiB
+		 * dma_trans area on RK3399Pro NPU EVB/USB-ACM camera examples.
+		 * TB-RK3399ProD exposes NPU as an external USB device, so mainline
+		 * has no on-SoC NPU node to bind, but keep the reservation to match
+		 * the vendor memory map expected by NPU/user-space validation flows.
+		 */
+		dma_trans: dma-trans@3c000000 {
+			reg = <0x0 0x3c000000 0x0 0x04000000>;
+		};
+	};
+
+	// vcc5v0_sys: regulator-vcc5v0-sys {
+	// 	compatible = "regulator-fixed";
+	// 	regulator-name = "vcc5v0_sys";
+	// 	regulator-always-on;
+	// 	regulator-boot-on;
+	// 	regulator-min-microvolt = <5000000>;
+	// 	regulator-max-microvolt = <5000000>;
+	// };
+
+	// vcc_phy: regulator-vcc-phy {
+	// 	compatible = "regulator-fixed";
+	// 	regulator-name = "vcc_phy";
+	// 	regulator-always-on;
+	// 	regulator-boot-on;
+	// };
+
+	// vcc_pcie: regulator-vcc-pcie {
+	// 	compatible = "regulator-fixed";
+	// 	enable-active-high;
+	// 	gpio = <&gpio2 RK_PA6 GPIO_ACTIVE_HIGH>;
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&vcc_pcie_drv>;
+	// 	regulator-name = "vcc_pcie";
+	// 	regulator-always-on;
+	// 	regulator-boot-on;
+	// 	vin-supply = <&vcc5v0_sys>;
+	// };
+
+	// vcc_4g: regulator-vcc-4g {
+	// 	compatible = "regulator-fixed";
+	// 	enable-active-high;
+	// 	gpio = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
+	// 	pinctrl-names = "default";
+	// 	pinctrl-0 = <&vcc_4g_drv>;
+	// 	regulator-name = "vcc_4g";
+	// 	regulator-always-on;
+	// 	regulator-boot-on;
+	// 	vin-supply = <&vcc5v0_sys>;
+	// };
+
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&emmc_phy {
+	status = "okay";
+};
+
+&sdhci {
+	bus-width = <8>;
+	mmc-hs400-1_8v;
+	supports-emmc;
+	non-removable;
+	keep-power-in-suspend;
+	mmc-hs400-enhanced-strobe;
+	status = "okay";
+};
