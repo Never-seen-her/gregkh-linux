@@ -1,0 +1,56 @@
+/dts-v1/;
+// #include <dt-bindings/input/linux-event-codes.h> //Linux 输入事件代码
+// #include <dt-bindings/leds/common.h> //LED 颜色和功能标识
+// #include <dt-bindings/pwm/pwm.h> //PWM 极性标志
+#include "rk3399.dtsi"
+
+
+/ {
+	model = "Toybrick TB-RK3399ProD";
+	compatible = "toybrick,tb-rk3399pro-d", "rockchip,rk3399pro", "rockchip,rk3399";
+
+	aliases {
+		mmc0 = &sdhci;
+	};
+
+	chosen {
+		stdout-path = "serial2:1500000n8";
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		/*
+		 * Toybrick/Rockchip RK3399Pro Linux BSP reserves this 64 MiB
+		 * dma_trans area on RK3399Pro NPU EVB/USB-ACM camera examples.
+		 * TB-RK3399ProD exposes NPU as an external USB device, so mainline
+		 * has no on-SoC NPU node to bind, but keep the reservation to match
+		 * the vendor memory map expected by NPU/user-space validation flows.
+		 */
+		dma_trans: dma-trans@3c000000 {
+			reg = <0x0 0x3c000000 0x0 0x04000000>;
+		};
+	};
+
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&emmc_phy {
+	status = "okay";
+};
+
+&sdhci {
+	bus-width = <8>;
+	mmc-hs400-1_8v;
+	supports-emmc;
+	non-removable;
+	keep-power-in-suspend;
+	mmc-hs400-enhanced-strobe;
+	status = "okay";
+};
