@@ -18,22 +18,22 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
-	// reserved-memory {
-	// 	#address-cells = <2>;
-	// 	#size-cells = <2>;
-	// 	ranges;
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
 
-	// 	/*
-	// 	 * Toybrick/Rockchip RK3399Pro Linux BSP reserves this 64 MiB
-	// 	 * dma_trans area on RK3399Pro NPU EVB/USB-ACM camera examples.
-	// 	 * TB-RK3399ProD exposes NPU as an external USB device, so mainline
-	// 	 * has no on-SoC NPU node to bind, but keep the reservation to match
-	// 	 * the vendor memory map expected by NPU/user-space validation flows.
-	// 	 */
-	// 	dma_trans: dma-trans@3c000000 {
-	// 		reg = <0x0 0x3c000000 0x0 0x04000000>;
-	// 	};
-	// };
+		/*
+		 * Toybrick/Rockchip RK3399Pro Linux BSP reserves this 64 MiB
+		 * dma_trans area on RK3399Pro NPU EVB/USB-ACM camera examples.
+		 * TB-RK3399ProD exposes NPU as an external USB device, so mainline
+		 * has no on-SoC NPU node to bind, but keep the reservation to match
+		 * the vendor memory map expected by NPU/user-space validation flows.
+		 */
+		dma_trans: dma-trans@3c000000 {
+			reg = <0x0 0x3c000000 0x0 0x04000000>;
+		};
+	};
 
 	clkin_gmac: external-gmac-clock {
 		compatible = "fixed-clock";
