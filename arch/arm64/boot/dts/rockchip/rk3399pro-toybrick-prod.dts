@@ -17,6 +17,20 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		/* for weston 128M */
+		/* global autoconfigured region for contiguous allocations */
+		linux,cma {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x8000000>;
+			linux,cma-default;
+		};
+	};
+
 	clkin_gmac: external-gmac-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
@@ -35,7 +49,6 @@
 		regulator-max-microvolt = <5000000>;
 		regulator-min-microvolt = <5000000>;
 	};
-
 };
 
 /* cpu supply */
@@ -108,14 +121,33 @@
 /* usb wifi */
 &u2phy0 {
 	status = "okay";
-};
-&u2phy0_host {
-	status = "okay";
+	u2phy0_host {
+		status = "okay";
+	};
 };
 &usb_host0_ehci {
 	status = "okay";
 };
-&usb_host0_ohci {
+
+/* GL3520-QFN88 usb 2.0 * 2 and usb 3.0*/
+&tcphy1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&u3_vcc5v0_host_en>;
+	status = "okay";
+};
+&u2phy1 {
+	status = "okay";
+	u2phy1_otg {
+		status = "okay";
+	};
+};
+&usbdrd3_1 {
+	status = "okay";
+};
+&usbdrd_dwc3_1 {
+	dr_mode = "host";
+	pinctrl-names = "default";
+	pinctrl-0 = <&u3_hub_reset>;
 	status = "okay";
 };
 
@@ -127,6 +159,23 @@
 	cd-gpios = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc_clk &sdmmc_cmd &sdmmc_bus4>;
+	status = "okay";
+};
+
+/* hdmi display interface */
+&hdmi {
+	status = "okay";
+	ddc-i2c-bus = <&i2c3>;
+};
+&vopb {
+	status = "okay";
+};
+&vopb_mmu {
+	status = "okay";
+};
+/* GPU Mali-T860 */
+&gpu {
+	mali-supply = <&vdd_gpu>;
 	status = "okay";
 };
 
@@ -378,18 +427,33 @@
 	};
 };
 
+/* hdmi */
+&i2c3 {
+	status = "okay";
+};
+
 &pinctrl {
 	pmic {
 		pmic_int_l: pmic-int-l {
 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
-
 		vsel1_gpio: vsel1 {
 			rockchip,pins = <1 RK_PC1 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
-
 		vsel2_gpio: vsel2 {
 			rockchip,pins = <1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
 	};
+
+	usb-hub {
+		/* hub - usb 3.0 U3_VCC5V0_HOST_EN */
+		u3_vcc5v0_host_en: u3-vcc5v0-host-en {
+			rockchip,pins = <2 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+		/* hub - U3_HUB_RST */
+		u3_hub_reset: u3-hub-reset {
+			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+
 };
