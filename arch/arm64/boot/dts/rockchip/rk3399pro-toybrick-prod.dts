@@ -29,6 +29,16 @@
 			size = <0x0 0x8000000>;
 			linux,cma-default;
 		};
+		/*
+		 * Toybrick/Rockchip RK3399Pro Linux BSP reserves this 64 MiB
+		 * dma_trans area on RK3399Pro NPU EVB/USB-ACM camera examples.
+		 * TB-RK3399ProD exposes NPU as an external USB device, so mainline
+		 * has no on-SoC NPU node to bind, but keep the reservation to match
+		 * the vendor memory map expected by NPU/user-space validation flows.
+		 */
+		dma_trans: dma-trans@3c000000 {
+			reg = <0x0 0x3c000000 0x0 0x04000000>;
+		};
 	};
 
 	clkin_gmac: external-gmac-clock {
@@ -49,6 +59,7 @@
 		regulator-max-microvolt = <5000000>;
 		regulator-min-microvolt = <5000000>;
 	};
+
 };
 
 /* cpu supply */
@@ -151,6 +162,11 @@
 	status = "okay";
 };
 
+/* npu */
+&pcie_clkreqnb_cpm {
+	rockchip,pins = <4 RK_PD0 1 &pcfg_pull_none>;
+};
+
 /* TF card */
 &sdmmc {
 	bus-width = <4>;
@@ -232,7 +248,7 @@
 		#clock-cells = <1>;
 		clock-output-names = "rk808-clkout1", "rk808-clkout2";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pmic_int_l>;
+		pinctrl-0 = <&pmic_int_l>, <&clk_32k>;
 		system-power-controller;
 		wakeup-source;
 
@@ -433,6 +449,8 @@
 };
 
 &pinctrl {
+
+
 	pmic {
 		pmic_int_l: pmic-int-l {
 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
@@ -456,4 +474,9 @@
 		};
 	};
 
+	npu_clk {
+		npu_ref_clk: npu-ref-clk {
+			rockchip,pins = <0 RK_PA2 1 &pcfg_pull_none>;
+		};
+	};
 };
